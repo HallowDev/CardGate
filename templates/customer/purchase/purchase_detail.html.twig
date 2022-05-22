@@ -1,0 +1,144 @@
+{% extends "customer/base.html.twig" %}
+
+{% block body %}
+
+    <section>
+        <div class="container py-5">
+            <div class="row">
+               <div class="col-12 mb-3">
+                    <a href="{{ path('profile_purchase_list') }}" class="btn btn-dark">Back to purchases</a>
+                </div> 
+                <div class="col-12 mb-3">
+                    <h3 class="text-center">My purchase #{{ purchase.id }}</h3>
+                </div>
+                {% include "_messages_flash.html.twig" %}
+                <div class="col-sm-12 col-md-6">
+                <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title">Products summary</h5>
+                            </div>
+                            <div class="card-body">
+                                <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Product</th>
+                                <th scope="col">Unitary price</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in purchase.listProduct.contentListProducts %}
+                                <tr>
+                                    <th>
+                                        <div class="d-flex align-items-center">
+                                            <img src="{{ item.product.image }}" alt="" style="height:80px;object-fit:contain;">
+                                            <div class="d-flex flex-column align-items-center">
+                                                <p>{{ item.product.model }}</p>
+                                            </div>
+                                           
+                                        </div>
+                                    </th>
+                                    <td>{{ item.product.price | priceEuro }}</td>
+                                    <td>
+                                        <button class="btn btn-light"> {{ item.quantity }}</button>
+                                    </td>
+                                    <td>{{ item.total | priceEuro }}</td>
+                                </tr>
+                            {% endfor %}
+                            <tr>
+                                <th colspan="2">
+                                </th>
+                                <th>
+                                    <p><strong>Subtotal</strong></p>
+                                </th>
+                                <th>
+                                    <p><strong>{{ purchase.invoice.total | priceEuro}}</strong></p>
+                                </th>
+                            </tr>
+                            
+                        
+                        </tbody>
+                    </table>
+                            </div>
+                        </div>
+                    
+                </div>
+                <div class="col-sm-12 col-md-6">
+                
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title">Delivery adress</h5>
+                            </div>
+                            <div class="card-body">
+                                <p>{{ purchase.country }}</p>
+                                 <p>{{ purchase.city }}</p>
+                                  <p>{{ purchase.street }}</p>
+                                   <p>{{ purchase.postalCode }}</p>
+                                    <p>{{ purchase.phone }}</p>
+
+                            </div>
+                        </div>
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="col-12 pt-3">
+              <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title">Invoice #{{ purchase.invoice.id }}</h5>
+                                <p>Date : {{ purchase.createdAt | date('d-M-Y') }}</p>
+                            </div>
+                            <div class="card-body">
+                                <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Product</th>
+                                <th scope="col">Unitary price</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in purchase.invoice.contentInvoices %}
+                                <tr>
+                                    <th>
+                                        <div class="d-flex align-items-center">
+                                            <img src="{{ item.imageProduct }}" alt="" style="height:80px;object-fit:contain;">
+                                            <div class="d-flex flex-column align-items-center">
+                                                <p>{{ item.productModel }}</p>
+                                            </div>
+                                           
+                                        </div>
+                                    </th>
+                                    <td>{{ item.priceProduct | priceEuro }}</td>
+                                    <td>
+                                        <button class="btn btn-light"> {{ item.quantity }}</button>
+                                    </td>
+                                    <td>{{ item.invoice.total | priceEuro }}</td>
+                                </tr>
+                            {% endfor %}
+                            <tr>
+                                <th colspan="2">
+                                </th>
+                                <th>
+                                    <p><strong>Subtotal</strong></p>
+                                </th>
+                                <th>
+                                    <p><strong>{{ purchase.invoice.total | priceEuro}}</strong></p>
+                                </th>
+                            </tr>
+                            
+                        
+                        </tbody>
+                    </table>
+                            </div>
+                        </div>
+                    
+                </div>
+        </div>
+    </section>
+
+{% endblock %}

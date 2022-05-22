@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Category;
 use App\Form\CategoryType;
 use App\Repository\CategoryRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,10 +15,16 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdminCategoryController extends AbstractController
 {
     #[Route('/', name: 'admin_category_index', methods: ['GET'])]
-    public function index(CategoryRepository $categoryRepository): Response
+    public function index(CategoryRepository $categoryRepository, PaginatorInterface $paginator, Request $request): Response
     {
+        $categories = $paginator->paginate(
+            $categoryRepository->findAll(), /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            10 /*limit per page*/
+        );
+
         return $this->render('admin/category/index.html.twig', [
-            'categories' => $categoryRepository->findAll(),
+            'categories' => $categories,
         ]);
     }
 
@@ -40,8 +47,16 @@ class AdminCategoryController extends AbstractController
     }
 
     #[Route('/{id}', name: 'admin_category_show', methods: ['GET'])]
-    public function show(Category $category): Response
+    public function show(int $id, CategoryRepository $categoryRepository): Response
     {
+        $category = $categoryRepository->find($id);
+
+        if(!$category)
+        {
+            $this->addFlash("danger","The category is not found");
+            return $this->redirectToRoute("admin_category_index");
+        }
+
         return $this->render('admin/category/show.html.twig', [
             'category' => $category,
         ]);

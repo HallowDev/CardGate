@@ -1,0 +1,46 @@
+{% extends "customer/base.html.twig" %}
+
+{% block body %}
+	<div class="container py-5">
+
+		<div class="row">
+			{% include "_messages_flash.html.twig" %}
+			<div class="col-sm-12 col-md-6">
+				<a href="{{ path('profile_image_edit') }}">
+					<div class="card">
+
+						<img {% if (app.user.image is same as null) or (app.user.image is same as "") %} src="https://images.unsplash.com/photo-1546561892-65bf811416b9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2370&q=80" {% else %} src="{{ app.user.image }}" {% endif %} class="card-img-top imageCard" alt="image_category">
+					</div>
+				</a>
+				<div class="card mt-3">
+					<div class="card-header">
+						<h5>Personal informations</h5>
+					</div>
+					<div class="card-body">
+						<p>Name : {{ app.user.name }}</p>
+						<p>Phone : {{ app.user.phone }}</p>
+						<p>Location : {{ app.user.adress }}</p>
+						<p>Mail adresss : {{ app.user.email }}</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-sm-12 col-md-6">
+				<div class="card">
+					<div class="card-header">
+						<h5>Configuration</h5>
+					</div>
+					<div class="card-body">
+						<a href="{{ path('profile_purchase_list') }}" class="btn btn-primary w-100 mt-2">My purchases</a>
+						<a href="{{ path('profile_image_edit') }}" class="btn btn-primary w-100 mt-2">Modify my profile picture</a>
+						<a href="{{ path('profile_edit_info') }}" class="btn btn-primary w-100 mt-2">Modify my personal informations</a>
+						<a href="{{ path('profile_edit_password') }}" class="btn btn-primary w-100 mt-2">Change my password</a>
+						<a href="{{ path('profile_contact_support') }}" class="btn btn-primary w-100 mt-2">Contact the support</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+{% endblock %}

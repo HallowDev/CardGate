@@ -14,17 +14,17 @@ class CategoryType extends AbstractType
     {
         $builder
             ->add('name',TextType::class,[
-                'label' => 'Nom de la catégorie',
+                'label' => 'Category name',
                 'required' => false,
                 'attr' => [
-                    'placeholder' => 'Ecrire ici le nom...'
+                    'placeholder' => 'Write the name here...'
                 ]
             ])
             ->add('image',TextType::class,[
-                'label' => 'Image de la catégorie',
+                'label' => 'Category image',
                 'required' => false,
                 'attr' => [
-                    'placeholder' => 'Ajouter le chemin de l\'image ici'
+                    'placeholder' => 'Add the image path here...'
                 ]
             ])
         ;
